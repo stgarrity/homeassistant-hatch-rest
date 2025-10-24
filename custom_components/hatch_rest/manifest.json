@@ -1,0 +1,18 @@
+{
+  "domain": "hatch_rest",
+  "name": "Hatch Rest",
+  "codeowners": ["@stgarrity"],
+  "config_flow": true,
+  "documentation": "https://github.com/stgarrity/homeassistant-hatch-rest",
+  "integration_type": "device",
+  "iot_class": "local_push",
+  "requirements": ["pyhatchbabyrest>=2.1.0"],
+  "version": "0.1.0",
+  "dependencies": ["bluetooth_adapters"],
+  "bluetooth": [
+    {
+      "service_uuid": "02260001-5efd-47eb-9c1a-de53f7a2b232",
+      "connectable": true
+    }
+  ]
+}

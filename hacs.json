@@ -1,0 +1,5 @@
+{
+  "name": "Hatch Rest",
+  "render_readme": true,
+  "domains": ["light"]
+}

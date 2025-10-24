@@ -1,0 +1,25 @@
+{
+  "config": {
+    "step": {
+      "bluetooth_confirm": {
+        "title": "Discovered Hatch Rest",
+        "description": "Do you want to add this Hatch Rest to Home Assistant?\n\nDevice: {name}\nAddress: {address}"
+      },
+      "user": {
+        "title": "Add Hatch Rest",
+        "description": "Select a discovered device or enter the MAC address manually.",
+        "data": {
+          "address": "MAC Address"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Failed to connect to device. Make sure it's powered on and within Bluetooth range.",
+      "unknown": "Unexpected error occurred."
+    },
+    "abort": {
+      "already_configured": "This device is already configured.",
+      "cannot_connect": "Cannot connect to device. Make sure it's powered on and in range."
+    }
+  }
+}
