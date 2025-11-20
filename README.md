@@ -3,7 +3,7 @@
 [![hacs_badge](https://img.shields.io/badge/HACS-Custom-orange.svg)](https://github.com/custom-components/hacs)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-Home Assistant custom integration for **Hatch Rest** (1st generation, Bluetooth-only) sleep light.
+Home Assistant custom integration for **Hatch Rest** and **Hatch Rest+** sleep lights.
 
 ## Features
 
@@ -12,11 +12,13 @@ Home Assistant custom integration for **Hatch Rest** (1st generation, Bluetooth-
 💡 **Brightness adjustment** - 0-100% brightness slider
 🔌 **Local control** - No cloud dependency, pure Bluetooth LE
 ⚡ **Fast response** - Direct BLE communication
+🔄 **ESP32 Bluetooth Proxy support** - Extended range via ESPHome
 
 ## Supported Devices
 
-- ✅ **Hatch Rest (1st Gen)** - Bluetooth-only model
-- ❌ Rest+ / Rest 2nd Gen - Use WiFi-based integrations instead
+- ✅ **Hatch Rest (1st Gen)** - Original Bluetooth-only model
+- ✅ **Hatch Rest+ (2nd Gen)** - Bluetooth + WiFi model (local Bluetooth control)
+- ⚠️ **Note:** Rest 2nd Gen WiFi features not supported (Bluetooth-only control)
 
 ## Installation
 
@@ -205,10 +207,10 @@ Filter by: `hatch_rest`
 
 ### Device Limitations
 
-The Hatch Rest (1st gen, Bluetooth-only) is a simple remote-controlled device:
-- No internal scheduling or programs
-- No WiFi connectivity
-- Must be within Bluetooth range of HA host
+The Hatch Rest devices are primarily remote-controlled:
+- **Rest (1st Gen):** No internal scheduling, Bluetooth-only
+- **Rest+ (2nd Gen):** Has WiFi capabilities but this integration uses Bluetooth for local control
+- Must be within Bluetooth range of HA host (or use ESP32 Bluetooth Proxy for extended range)
 - Commands are immediate only (no delayed execution in device)
 
 ## Technical Details

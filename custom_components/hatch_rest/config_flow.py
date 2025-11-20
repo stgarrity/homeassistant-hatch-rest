@@ -29,7 +29,7 @@ async def validate_connection(hass: HomeAssistant, mac_address: str) -> dict[str
     """
     try:
         # Attempt to connect to the device
-        rest = await connect_async(mac_address=mac_address)
+        rest = await connect_async(mac_address)
 
         # Get initial state to confirm connection works
         await rest.refresh_data()
@@ -135,10 +135,19 @@ class HatchRestConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         # Get all discovered Hatch devices
         current_addresses = self._async_current_ids()
         for discovery_info in async_discovered_service_info(self.hass):
+            # Check for Hatch Rest (original) or Hatch Rest+ by manufacturer data
+            is_hatch = False
+            if discovery_info.manufacturer_data:
+                # Manufacturer ID 1076 (0x0434) is Hatch Baby
+                if 1076 in discovery_info.manufacturer_data:
+                    is_hatch = True
+            # Also check for original Hatch Rest service UUID
+            if discovery_info.service_uuids and "02260001-5efd-47eb-9c1a-de53f7a2b232" in discovery_info.service_uuids:
+                is_hatch = True
+            
             if (
                 discovery_info.address.replace(":", "").lower() not in current_addresses
-                and discovery_info.service_uuids
-                and "02260001-5efd-47eb-9c1a-de53f7a2b232" in discovery_info.service_uuids
+                and is_hatch
             ):
                 self._discovered_devices[
                     discovery_info.address

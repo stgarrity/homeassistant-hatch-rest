@@ -37,7 +37,7 @@ class HatchRestDataUpdateCoordinator(DataUpdateCoordinator):
     async def _async_update_data(self) -> dict[str, Any]:
         """Fetch data from the device."""
         # Ensure we're connected
-        if not self.client or not self.client.connected:
+        if not self.client:
             await self._ensure_connected()
 
         try:
@@ -45,11 +45,11 @@ class HatchRestDataUpdateCoordinator(DataUpdateCoordinator):
             await self.client.refresh_data()
 
             return {
-                "is_on": self.client.is_on,
+                "is_on": self.client.power,
                 "brightness": self.client.brightness,
                 "color": self.client.color,
                 "volume": self.client.volume,
-                "sound": getattr(self.client, "current_sound", 0),
+                "sound": self.client.sound.value if hasattr(self.client.sound, 'value') else 0,
             }
 
         except Exception as err:
@@ -66,13 +66,13 @@ class HatchRestDataUpdateCoordinator(DataUpdateCoordinator):
     async def _ensure_connected(self) -> None:
         """Ensure we are connected to the device."""
         async with self._connect_lock:
-            if self.client and self.client.connected:
+            if self.client and self.client.device:
                 return
 
             _LOGGER.debug("Connecting to Hatch Rest at %s", self.mac_address)
 
             try:
-                self.client = await connect_async(mac_address=self.mac_address)
+                self.client = await connect_async(self.mac_address)
                 _LOGGER.info("Successfully connected to Hatch Rest")
 
             except Exception as err:
@@ -145,7 +145,7 @@ class HatchRestDataUpdateCoordinator(DataUpdateCoordinator):
 
     async def async_shutdown(self) -> None:
         """Shutdown the coordinator and disconnect."""
-        if self.client and self.client.connected:
+        if self.client and self.client.device:
             _LOGGER.debug("Disconnecting from Hatch Rest")
             try:
                 await self.client.disconnect()
