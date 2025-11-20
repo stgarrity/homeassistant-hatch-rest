@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.1] - 2025-11-20
+
+### Fixed
+- Fixed device naming to use the actual Bluetooth device name (e.g., "Cooper's Room") instead of "Hatch Rest"
+
 ## [1.0.0] - 2025-11-20
 
 ### Added

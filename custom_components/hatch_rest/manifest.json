@@ -7,7 +7,7 @@
   "integration_type": "device",
   "iot_class": "local_push",
   "requirements": ["pyhatchbabyrest>=2.1.0"],
-  "version": "1.0.0",
+  "version": "1.0.1",
   "dependencies": ["bluetooth_adapters"],
   "bluetooth": [
     {

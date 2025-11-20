@@ -22,7 +22,7 @@ from .const import DOMAIN
 _LOGGER = logging.getLogger(__name__)
 
 
-async def validate_connection(hass: HomeAssistant, mac_address: str) -> dict[str, Any]:
+async def validate_connection(hass: HomeAssistant, mac_address: str, device_name: str | None = None) -> dict[str, Any]:
     """Validate we can connect to the device.
 
     Data has the keys from STEP_USER_DATA_SCHEMA with values provided by the user.
@@ -37,9 +37,12 @@ async def validate_connection(hass: HomeAssistant, mac_address: str) -> dict[str
         # Disconnect
         await rest.disconnect()
 
+        # Use device name if provided, otherwise use MAC address
+        title = device_name if device_name else f"Hatch Rest ({mac_address[-8:]})"
+
         # Return info that you want to store in the config entry
         return {
-            "title": f"Hatch Rest ({mac_address[-8:]})",
+            "title": title,
             "unique_id": mac_address.replace(":", "").lower(),
         }
 
@@ -78,7 +81,7 @@ class HatchRestConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         if user_input is not None:
             try:
                 info = await validate_connection(
-                    self.hass, self._discovery_info.address
+                    self.hass, self._discovery_info.address, self._discovery_info.name
                 )
             except CannotConnect:
                 return self.async_abort(reason="cannot_connect")

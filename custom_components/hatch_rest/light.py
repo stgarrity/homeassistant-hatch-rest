@@ -52,10 +52,10 @@ class HatchRestLight(CoordinatorEntity[HatchRestDataUpdateCoordinator], LightEnt
         # Unique ID
         self._attr_unique_id = f"{entry.entry_id}_light"
 
-        # Device info
+        # Device info - use the entry title as the device name
         self._attr_device_info = DeviceInfo(
             identifiers={(DOMAIN, entry.entry_id)},
-            name="Hatch Rest",
+            name=entry.title,
             manufacturer=MANUFACTURER,
             model=MODEL,
             connections={(CONNECTION_BLUETOOTH, coordinator.mac_address)},
