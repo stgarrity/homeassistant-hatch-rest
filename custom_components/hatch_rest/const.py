@@ -10,8 +10,9 @@ CONF_ADDRESS = "address"
 MANUFACTURER = "Hatch Baby"
 MODEL = "Rest (1st Gen)"
 
-# Update interval (fallback if notifications fail)
-DEFAULT_SCAN_INTERVAL = timedelta(seconds=30)
+# Poll interval — kept long to avoid monopolizing the single BLE connection
+# slot on Hatch Rest 1st gen devices (which blocks the phone app).
+DEFAULT_SCAN_INTERVAL = timedelta(minutes=5)
 
 # Sound mapping (PyHatchBabyRestSound enum to friendly names)
 SOUND_MAP = {

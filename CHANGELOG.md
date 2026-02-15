@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.0] - 2025-02-15
+
+### Fixed
+- **Fixed BLE connection contention with phone app.** Hatch Rest 1st gen only supports a single BLE connection at a time. The old coordinator polled every 30 seconds and scheduled redundant refreshes after commands, which monopolized the BLE slot and blocked the Hatch phone app from connecting. Commands were also delayed when the phone held the connection.
+
+### Changed
+- Increased poll interval from 30 seconds to 5 minutes to minimize BLE contention
+- Replaced `async_request_refresh()` after commands with `async_set_updated_data()` — the library already reads state after each command, so we push it immediately without opening another BLE connection
+- Removed broken `client.disconnect()` calls (the upstream library's disconnect method is a no-op that actually opens a connection)
+- Corrected `iot_class` from `local_push` to `local_polling`
+
 ## [1.0.1] - 2025-11-20
 
 ### Fixed
